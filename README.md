@@ -1,6 +1,7 @@
 # Veritaserum
 
 [![Build Status](https://travis-ci.org/uesteibar/veritaserum.svg?branch=master)](https://travis-ci.org/uesteibar/veritaserum)
+[![Hex Version](https://img.shields.io/hexpm/v/veritaserum.svg)](https://hex.pm/packages/veritaserum)
 
 Simple sentiment analysis for [Elixir](http://elixir-lang.org/) based on the AFINN-165 list and some extra enhancements.
 
