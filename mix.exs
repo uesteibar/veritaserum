@@ -7,7 +7,7 @@ defmodule Veritaserum.Mixfile do
     [
       app: :veritaserum,
       version: @version,
-      elixir: "~> 1.2",
+      elixir: "~> 1.3",
       description: "Sentiment analysis based on afinn-165, emojis and some enhancements.",
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
