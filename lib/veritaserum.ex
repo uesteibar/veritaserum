@@ -8,15 +8,7 @@ defmodule Veritaserum do
   - negators (*don't*, *not*...).
   """
 
-  @afinn_values File.read!("#{__DIR__}/../config/afinn.json")
-                  |> Poison.Parser.parse!
-  @emojis File.read!("#{__DIR__}/../config/emoji.json")
-                  |> Poison.Parser.parse!
-  @values Map.merge(@afinn_values, @emojis)
-  @negators File.read!("#{__DIR__}/../config/negators.json")
-                  |> Poison.Parser.parse!
-  @boosters File.read!("#{__DIR__}/../config/boosters.json")
-                  |> Poison.Parser.parse!
+  alias Veritaserum.Evaluator
 
   @spec analyze(List.t) :: Integer.t
   def analyze(input) when is_list(input) do
@@ -52,22 +44,19 @@ defmodule Veritaserum do
   defp analyze_list([], _, result), do: result
 
   defp analyze_word(word) do
-    case @values[word] do
-      nil -> 0
-      val -> val
-    end
+    Evaluator.evaluate_word(word)
   end
 
   defp analyze_word(word, previous) do
-    case @negators[previous] do
+    case Evaluator.evaluate_negator(previous) do
       1 -> - analyze_word(word)
-      _ -> analyze_word_for_boosters(word, previous)
+      0 -> analyze_word_for_boosters(word, previous)
     end
   end
 
   defp analyze_word_for_boosters(word, previous) do
-    case @boosters[previous] do
-      nil -> analyze_word(word)
+    case Evaluator.evaluate_booster(previous) do
+      0 -> analyze_word(word)
       val -> word |> analyze_word |> apply_booster(val)
     end
   end

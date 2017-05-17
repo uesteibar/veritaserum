@@ -1,5 +1,3 @@
-![Veritaserum](https://github.com/uesteibar/veritaserum/raw/master/veritaserum_logo.png)
-
 # Veritaserum
 
 Simple sentiment analysis for [Elixir](http://elixir-lang.org/) based on the AFINN-165 list and some extra enhancements.
@@ -49,6 +47,8 @@ You can also pass a list
 Veritaserum.analyze(["I love Veritaserum!", "I hate some things!"]) #=> [3, -3]
 ```
 
+Documentation can be found on [HexDocs](https://hexdocs.pm/veritaserum).
+
 ## Running locally
 
 Clone the repository
@@ -79,5 +79,20 @@ Pull requests are always welcome =)
 The project uses [standard-version](https://github.com/conventional-changelog/standard-version) to update the [Changelog](https://github.com/uesteibar/veritaserum/blob/master/CHANGELOG.md) with each commit message and upgrade the package version.
 For that reason every contribution should have a title and body that follows the [conventional commits standard](https://conventionalcommits.org/) conventions (e.g. `feat(analyzer): Make it smarter than Jarvis`).
 
+To make this process easier, you can do the following:
 
-Documentation can be found on [HexDocs](https://hexdocs.pm/veritaserum).
+Install `commitizen` and `cz-conventional-changelog` globally
+```bash
+npm i -g commitizen cz-conventional-changelog
+```
+
+Save `cz-conventional-changelog` as default
+```bash
+echo '{ "path": "cz-conventional-changelog" }' > ~/.czrc
+```
+
+Instead of `git commit`, you can now run
+```
+git cz
+```
+and follow the instructions to generate the commit message.
