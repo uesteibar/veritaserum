@@ -79,7 +79,7 @@ mix credo
 
 Pull requests are always welcome =)
 
-The project uses [standard-version](https://github.com/conventional-changelog/standard-version) to update the [Changelog](https://github.com/uesteibar/veritaserum/blob/master/CHANGELOG.md) with each commit message and upgrade the package version.
+The project uses [standard-changelog](https://github.com/conventional-changelog/conventional-changelog) to update the [Changelog](https://github.com/uesteibar/veritaserum/blob/master/CHANGELOG.md) with each commit message and upgrade the package version.
 For that reason every contribution should have a title and body that follows the [conventional commits standard](https://conventionalcommits.org/) conventions (e.g. `feat(analyzer): Make it smarter than Jarvis`).
 
 To make this process easier, you can do the following:
