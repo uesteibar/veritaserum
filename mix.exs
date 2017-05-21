@@ -27,9 +27,9 @@ defmodule Veritaserum.Mixfile do
   defp package do
     [
       files: [
-        "config/word.json",
-        "config/negator.json",
-        "config/booster.json",
+        "config/facets/word.json",
+        "config/facets/negator.json",
+        "config/facets/booster.json",
         "lib",
         "mix.exs",
         "README.md",

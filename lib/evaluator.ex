@@ -1,19 +1,19 @@
 defmodule Veritaserum.Evaluator do
   ["word", "negator", "booster"]
-  |> Enum.each(fn domain ->
-    File.read!("#{__DIR__}/../config/#{domain}.json")
+  |> Enum.each(fn facet ->
+    File.read!("#{__DIR__}/../config/facets/#{facet}.json")
     |> Poison.Parser.parse!
     |> Enum.each(fn {word, value} ->
 
       @doc """
-      Evaluates if a word/emoji is a **#{domain}** and returns value.
+      Evaluates if a word/emoji is a **#{facet}** and returns value.
 
-          iex> Veritaserum.Evaluator.evaluate_#{domain}("#{word}")
+          iex> Veritaserum.Evaluator.evaluate_#{facet}("#{word}")
           #{value}
       """
-      def unquote(:"evaluate_#{domain}")(unquote(word)), do: unquote(value)
+      def unquote(:"evaluate_#{facet}")(unquote(word)), do: unquote(value)
     end)
 
-    def unquote(:"evaluate_#{domain}")(_), do: 0
+    def unquote(:"evaluate_#{facet}")(_), do: 0
   end)
 end
