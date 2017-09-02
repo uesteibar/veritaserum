@@ -1,8 +1,13 @@
 defmodule Veritaserum.Evaluator do
-  ["word", "negator", "booster"]
+  ["word", "emoticon", "negator", "booster"]
   |> Enum.each(fn facet ->
     File.read!("#{__DIR__}/../config/facets/#{facet}.json")
     |> Poison.Parser.parse!
+    |> (fn list ->
+      def unquote(:"#{facet}_list")(), do: unquote(list |> Enum.map(fn {key, _} -> key end) |> List.flatten)
+
+      list
+    end).()
     |> Enum.each(fn {word, value} ->
 
       @doc """
@@ -14,6 +19,6 @@ defmodule Veritaserum.Evaluator do
       def unquote(:"evaluate_#{facet}")(unquote(word)), do: unquote(value)
     end)
 
-    def unquote(:"evaluate_#{facet}")(_), do: 0
+    def unquote(:"evaluate_#{facet}")(_), do: nil
   end)
 end
