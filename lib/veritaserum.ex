@@ -31,6 +31,8 @@ defmodule Veritaserum do
     input
     |> clean
     |> String.split
+    |> split_on_emoticons
+    |> Enum.map(&String.trim/1)
     |> analyze_list()
     |> Enum.reduce(0, &(&1 + &2))
   end
@@ -44,19 +46,21 @@ defmodule Veritaserum do
   defp analyze_list([], _, result), do: result
 
   defp analyze_word(word) do
-    Evaluator.evaluate_word(word)
+    with nil <- Evaluator.evaluate_emoticon(word),
+         nil <- Evaluator.evaluate_word(word),
+         do: 0
   end
 
   defp analyze_word(word, previous) do
     case Evaluator.evaluate_negator(previous) do
       1 -> - analyze_word(word)
-      0 -> analyze_word_for_boosters(word, previous)
+      nil -> analyze_word_for_boosters(word, previous)
     end
   end
 
   defp analyze_word_for_boosters(word, previous) do
     case Evaluator.evaluate_booster(previous) do
-      0 -> analyze_word(word)
+      nil -> analyze_word(word)
       val -> word |> analyze_word |> apply_booster(val)
     end
   end
@@ -67,10 +71,29 @@ defmodule Veritaserum do
 
   defp clean(text) do
     text
-    |> String.strip
-    |> String.replace(~r/\n/, "")
+    |> String.replace(~r/\n/, " ")
     |> String.downcase
-    |> String.replace(~r/[.,\/#!$%\^&\*;:{}=_`\"~()]/, "")
+    |> String.replace(~r/[.,\/#!$%\^&\*;:{}=_`\"~()]/, " ")
     |> String.replace(~r/ {2,}/, " ")
+  end
+
+  defp split_on_emoticons(text_list) when is_list(text_list) do
+    split_on_emoticons(Evaluator.emoticon_list, text_list)
+  end
+
+  defp split_on_emoticons([head | tail], text_list) do
+    new_text_list =
+      text_list
+      |> Enum.map(fn string ->
+        string
+        |> String.split(~r/#{head}/, include_captures: true)
+      end)
+      |> List.flatten
+
+    split_on_emoticons(tail, new_text_list)
+  end
+
+  defp split_on_emoticons([], text_list) do
+    text_list
   end
 end
