@@ -23,7 +23,7 @@ Add `veritaserum` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [{:veritaserum, "~> 0.1.2"}]
+  [{:veritaserum, "~> 0.1.3"}]
 end
 ```
 

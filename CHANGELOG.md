@@ -1,4 +1,13 @@
 
+<a name="0.1.3"></a>
+## [0.1.3](https://github.com/uesteibar/veritaserum/compare/v0.1.2...v0.1.3) (2017-09-07)
+
+
+### Bug Fixes
+
+* **evaluator:** Evaluate emojis without surrounding spaces ([7f6689d](https://github.com/uesteibar/veritaserum/commit/7f6689d))
+
+
 <a name="0.1.2"></a>
 ## [0.1.2](https://github.com/uesteibar/veritaserum/compare/v0.1.1...v0.1.2) (2017-05-17)
 
