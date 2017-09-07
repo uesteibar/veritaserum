@@ -35,6 +35,12 @@ defmodule VeritaserumTest do
     test "calculates sentimental value" do
       assert analyze(@text) == 3
     end
+
+    @text "I❤️Veritaserum"
+
+    test "calculates sentimental value of emoji without spaces" do
+      assert analyze(@text) == 3
+    end
   end
 
   describe "when text has irrelevant characters" do

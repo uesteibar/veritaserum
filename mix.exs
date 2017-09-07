@@ -30,6 +30,7 @@ defmodule Veritaserum.Mixfile do
         "config/facets/word.json",
         "config/facets/negator.json",
         "config/facets/booster.json",
+        "config/facets/emoticon.json",
         "lib",
         "mix.exs",
         "README.md",
