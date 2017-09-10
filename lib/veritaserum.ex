@@ -79,6 +79,7 @@ defmodule Veritaserum do
 
   defp split_on_emoticons(text_list) when is_list(text_list) do
     split_on_emoticons(Evaluator.emoticon_list, text_list)
+    |> Enum.filter(&( &1 != ""))
   end
 
   defp split_on_emoticons([head | tail], text_list) do
