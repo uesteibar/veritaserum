@@ -32,17 +32,18 @@ defmodule Veritaserum do
   def analyze(input, options) do
     return = Keyword.get(options, :return, :score)
 
-    marked_list = input
-                  |> clean
-                  |> String.split
-                  |> split_on_emoticons
-                  |> mark_list
-                  |> Enum.reverse
+    marked_list =
+      input
+      |> clean
+      |> String.split
+      |> split_on_emoticons
+      |> mark_list
+      |> Enum.reverse
 
-
-    score = marked_list
-            |> analyze_list
-            |> Enum.reduce(0, &(&1 + &2))
+    score =
+      marked_list
+      |> analyze_list
+      |> Enum.reduce(0, &(&1 + &2))
 
     case return do
       :score -> score
@@ -51,10 +52,10 @@ defmodule Veritaserum do
   end
 
   defp mark_word(word) do
-    with {_, nil, _} <- {:negator,  Evaluator.evaluate_negator(word),  word},
-         {_, nil, _} <- {:booster,  Evaluator.evaluate_booster(word),  word},
+    with {_, nil, _} <- {:negator, Evaluator.evaluate_negator(word), word},
+         {_, nil, _} <- {:booster, Evaluator.evaluate_booster(word), word},
          {_, nil, _} <- {:emoticon, Evaluator.evaluate_emoticon(word), word},
-         {_, nil, _} <- {:word,     Evaluator.evaluate_word(word),     word},
+         {_, nil, _} <- {:word, Evaluator.evaluate_word(word), word},
          do: {:neutral, 0, word}
   end
 
