@@ -1,4 +1,14 @@
 
+<a name="0.2.0"></a>
+## [0.2.0](https://github.com/uesteibar/veritaserum/compare/v0.1.3...v0.2.0) (2017-09-19)
+
+
+### Features
+
+* **analyze:** Add option return: :score_and_marks to inspect result in detail ([a0ead8e](https://github.com/uesteibar/veritaserum/commit/a0ead8e))
+
+
+
 <a name="0.1.3"></a>
 ## [0.1.3](https://github.com/uesteibar/veritaserum/compare/v0.1.2...v0.1.3) (2017-09-07)
 
