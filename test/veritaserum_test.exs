@@ -29,6 +29,21 @@ defmodule VeritaserumTest do
     end
   end
 
+  describe "when return option is :score_and_marks" do
+    @text "You really love Veritaserum. Don't you?"
+
+    test "returns score with marks" do
+      result = { 4, [ {:neutral, 0, "you"},
+                      {:booster, 1, "really"},
+                      {:word, 3, "love"},
+                      {:neutral, 0, "veritaserum"},
+                      {:negator, 1, "don't"},
+                      {:neutral, 0, "you?"} ]}
+
+      assert ^result = analyze(@text, return: :score_and_marks)
+    end
+  end
+
   describe "when text has relevant emoji" do
     @text "I ❤️ Veritaserum"
 

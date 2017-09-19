@@ -27,43 +27,69 @@ defmodule Veritaserum do
       3
   """
   @spec analyze(String.t) :: Integer.t
-  def analyze(input) do
-    input
-    |> clean
-    |> String.split
-    |> split_on_emoticons
-    |> Enum.map(&String.trim/1)
-    |> analyze_list()
-    |> Enum.reduce(0, &(&1 + &2))
+
+  def analyze(input, options \\ [])
+  def analyze(input, options) do
+    return = Keyword.get(options, :return, :score)
+
+    marked_list =
+      input
+      |> clean
+      |> String.split
+      |> split_on_emoticons
+      |> mark_list
+      |> Enum.reverse
+
+    score =
+      marked_list
+      |> analyze_list
+      |> Enum.reduce(0, &(&1 + &2))
+
+    case return do
+      :score -> score
+      :score_and_marks -> {score, marked_list}
+    end
+  end
+
+  defp mark_word(word) do
+    with {_, nil, _} <- {:negator, Evaluator.evaluate_negator(word), word},
+         {_, nil, _} <- {:booster, Evaluator.evaluate_booster(word), word},
+         {_, nil, _} <- {:emoticon, Evaluator.evaluate_emoticon(word), word},
+         {_, nil, _} <- {:word, Evaluator.evaluate_word(word), word},
+         do: {:neutral, 0, word}
+  end
+
+  defp mark_list([head | tail]) do
+    mark_list(tail, [mark_word(head)])
+  end
+  defp mark_list([head | tail], result) do
+    mark_list(tail, [mark_word(head) | result])
+  end
+  defp mark_list([], result), do: result
+
+  defp analyze_mark({type, score, _}) do
+    case type do
+      :word -> score
+      :emoticon -> score
+      _ -> 0
+    end
+  end
+
+  defp analyze_mark(mark, previous) do
+    case previous do
+      {:negator, _, _} -> - analyze_mark(mark)
+      {:booster, booster_value, _} -> analyze_mark(mark) |> apply_booster(booster_value)
+      _ -> analyze_mark(mark)
+    end
   end
 
   defp analyze_list([head | tail]) do
-    analyze_list(tail, head, [analyze_word(head)])
+    analyze_list(tail, head, [analyze_mark(head)])
   end
   defp analyze_list([head | tail], previous, result) do
-    analyze_list(tail, head, [analyze_word(head, previous) | result])
+    analyze_list(tail, head, [analyze_mark(head, previous) | result])
   end
   defp analyze_list([], _, result), do: result
-
-  defp analyze_word(word) do
-    with nil <- Evaluator.evaluate_emoticon(word),
-         nil <- Evaluator.evaluate_word(word),
-         do: 0
-  end
-
-  defp analyze_word(word, previous) do
-    case Evaluator.evaluate_negator(previous) do
-      1 -> - analyze_word(word)
-      nil -> analyze_word_for_boosters(word, previous)
-    end
-  end
-
-  defp analyze_word_for_boosters(word, previous) do
-    case Evaluator.evaluate_booster(previous) do
-      nil -> analyze_word(word)
-      val -> word |> analyze_word |> apply_booster(val)
-    end
-  end
 
   defp apply_booster(word_value, booster) when word_value > 0, do: word_value + booster
   defp apply_booster(word_value, booster) when word_value < 0, do: word_value - booster
@@ -79,6 +105,7 @@ defmodule Veritaserum do
 
   defp split_on_emoticons(text_list) when is_list(text_list) do
     split_on_emoticons(Evaluator.emoticon_list, text_list)
+    |> Enum.filter(&( &1 != ""))
   end
 
   defp split_on_emoticons([head | tail], text_list) do
