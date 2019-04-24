@@ -55,8 +55,9 @@ defmodule Veritaserum.Mixfile do
     [
       {:poison, ">= 2.0.0"},
       {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
-      {:coverex, "~> 1.4", only: :test},
-      {:ex_doc, "~> 0.15.1", only: :dev, runtime: false}
+      {:ex_doc, "~> 0.19", only: :dev, runtime: false},
+      {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
+      {:coverex, "~> 1.4", only: :test}
     ]
   end
 
