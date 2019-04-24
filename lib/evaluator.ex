@@ -3,12 +3,10 @@ defmodule Veritaserum.Evaluator do
   Evaluats words, boosters, negators and emoticons.
   """
 
-  alias Poison.Parser
-
   ["word", "emoticon", "negator", "booster"]
   |> Enum.each(fn facet ->
     File.read!("#{__DIR__}/../config/facets/#{facet}.json")
-    |> Parser.parse!()
+    |> Jason.decode!()
     |> (fn list ->
           def unquote(:"#{facet}_list")(),
             do: unquote(list |> Enum.map(fn {key, _} -> key end) |> List.flatten())
