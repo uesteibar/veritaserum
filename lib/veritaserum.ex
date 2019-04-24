@@ -10,11 +10,11 @@ defmodule Veritaserum do
 
   alias Veritaserum.Evaluator
 
-  @spec analyze(List.t) :: Integer.t
+  @spec analyze(List.t()) :: Integer.t()
   def analyze(input) when is_list(input) do
     input
     |> Stream.map(&analyze/1)
-    |> Enum.to_list
+    |> Enum.to_list()
   end
 
   @doc """
@@ -26,13 +26,14 @@ defmodule Veritaserum do
       iex> Veritaserum.analyze("I love Veritaserum")
       3
   """
-  @spec analyze(String.t) :: Integer.t
+  @spec analyze(String.t()) :: Integer.t()
   def analyze(input, return: :score_and_marks) do
     list_with_marks = get_list_with_marks(input)
     score = get_score(list_with_marks)
 
     {score, list_with_marks}
   end
+
   def analyze(input) do
     {score, _} = analyze(input, return: :score_and_marks)
 
@@ -48,10 +49,10 @@ defmodule Veritaserum do
   defp get_list_with_marks(input) do
     input
     |> clean
-    |> String.split
+    |> String.split()
     |> split_on_emoticons
     |> mark_list
-    |> Enum.reverse
+    |> Enum.reverse()
   end
 
   defp mark_word(word) do
@@ -65,9 +66,11 @@ defmodule Veritaserum do
   defp mark_list([head | tail]) do
     mark_list(tail, [mark_word(head)])
   end
+
   defp mark_list([head | tail], result) do
     mark_list(tail, [mark_word(head) | result])
   end
+
   defp mark_list([], result), do: result
 
   defp analyze_mark({type, score, _}) do
@@ -81,9 +84,11 @@ defmodule Veritaserum do
   defp analyze_mark(mark, previous) do
     case previous do
       {:negator, _, _} ->
-        - analyze_mark(mark)
+        -analyze_mark(mark)
+
       {:booster, booster_value, _} ->
         analyze_mark(mark) |> apply_booster(booster_value)
+
       _ ->
         analyze_mark(mark)
     end
@@ -92,9 +97,11 @@ defmodule Veritaserum do
   defp analyze_list([head | tail]) do
     analyze_list(tail, head, [analyze_mark(head)])
   end
+
   defp analyze_list([head | tail], previous, result) do
     analyze_list(tail, head, [analyze_mark(head, previous) | result])
   end
+
   defp analyze_list([], _, result), do: result
 
   defp apply_booster(word_value, booster) when word_value > 0, do: word_value + booster
@@ -104,13 +111,13 @@ defmodule Veritaserum do
   defp clean(text) do
     text
     |> String.replace(~r/\n/, " ")
-    |> String.downcase
+    |> String.downcase()
     |> String.replace(~r/[.,\/#!$%\^&\*;:{}=_`\"~()]/, " ")
     |> String.replace(~r/ {2,}/, " ")
   end
 
   defp split_on_emoticons(text_list) when is_list(text_list) do
-    split_on_emoticons(Evaluator.emoticon_list, text_list)
+    split_on_emoticons(Evaluator.emoticon_list(), text_list)
     |> Enum.filter(&(&1 != ""))
   end
 
@@ -121,7 +128,7 @@ defmodule Veritaserum do
         string
         |> String.split(~r/#{head}/, include_captures: true)
       end)
-      |> List.flatten
+      |> List.flatten()
 
     split_on_emoticons(tail, new_text_list)
   end

@@ -9,14 +9,14 @@ defmodule Veritaserum.Mixfile do
       version: @version,
       elixir: "~> 1.3",
       description: "Sentiment analysis based on afinn-165, emojis and some enhancements.",
-      build_embedded: Mix.env == :prod,
-      start_permanent: Mix.env == :prod,
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
       test_coverage: [tool: Coverex.Task],
       aliases: aliases(),
       package: package(),
       deps: deps(),
       docs: docs(),
-      source_url: github(),
+      source_url: github()
     ]
   end
 
@@ -38,7 +38,7 @@ defmodule Veritaserum.Mixfile do
       ],
       links: %{"github" => github()},
       maintainers: ["Unai Esteibar <uesteibar@gmail.com>"],
-      licenses: ["Apache 2.0"],
+      licenses: ["Apache 2.0"]
     ]
   end
 
@@ -47,7 +47,7 @@ defmodule Veritaserum.Mixfile do
       source_ref: "v#{@version}",
       main: "Veritaserum",
       logo: "veritaserum_logo.png",
-      extras: ["README.md"],
+      extras: ["README.md"]
     ]
   end
 
@@ -56,13 +56,13 @@ defmodule Veritaserum.Mixfile do
       {:poison, ">= 2.0.0"},
       {:credo, "~> 0.3", only: [:dev, :test]},
       {:coverex, "~> 1.4", only: :test},
-      {:ex_doc, "~> 0.15.1", only: :dev, runtime: false},
+      {:ex_doc, "~> 0.15.1", only: :dev, runtime: false}
     ]
   end
 
   defp aliases do
     [
-      test: "test --cover",
+      test: "test --cover"
     ]
   end
 
