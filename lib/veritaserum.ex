@@ -43,7 +43,7 @@ defmodule Veritaserum do
   defp get_score(words) do
     words
     |> analyze_list
-    |> Enum.reduce(0, &(&1 + &2))
+    |> Enum.sum()
   end
 
   defp get_list_with_marks(input) do
