@@ -10,7 +10,7 @@ defmodule Veritaserum do
 
   alias Veritaserum.Evaluator
 
-  @spec analyze(List.t()) :: Integer.t()
+  @spec analyze(list(String.t()) | String.t()) :: list(integer) | integer
   def analyze(input) when is_list(input) do
     input
     |> Stream.map(&analyze/1)
@@ -26,7 +26,7 @@ defmodule Veritaserum do
       iex> Veritaserum.analyze("I love Veritaserum")
       3
   """
-  @spec analyze(String.t()) :: Integer.t()
+  @spec analyze(String.t(), return: :score_and_marks) :: {number(), [{atom, number, String.t()}]}
   def analyze(input, return: :score_and_marks) do
     list_with_marks = get_list_with_marks(input)
     score = get_score(list_with_marks)
