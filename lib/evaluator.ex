@@ -8,14 +8,14 @@ defmodule Veritaserum.Evaluator do
   ["word", "emoticon", "negator", "booster"]
   |> Enum.each(fn facet ->
     File.read!("#{__DIR__}/../config/facets/#{facet}.json")
-    |> Parser.parse!
+    |> Parser.parse!()
     |> (fn list ->
-      def unquote(:"#{facet}_list")(), do: unquote(list |> Enum.map(fn {key, _} -> key end) |> List.flatten)
+          def unquote(:"#{facet}_list")(),
+            do: unquote(list |> Enum.map(fn {key, _} -> key end) |> List.flatten())
 
-      list
-    end).()
+          list
+        end).()
     |> Enum.each(fn {word, value} ->
-
       @doc """
       Evaluates if a word/emoji is a **#{facet}** and returns value.
 
