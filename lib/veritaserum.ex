@@ -50,7 +50,6 @@ defmodule Veritaserum do
     input
     |> clean
     |> String.split()
-    |> split_on_emoticons
     |> mark_list
     |> Enum.reverse()
   end
@@ -113,27 +112,7 @@ defmodule Veritaserum do
     |> String.replace(~r/\n/, " ")
     |> String.downcase()
     |> String.replace(~r/[.,\/#!$%\^&\*;:{}=_`\"~()]/, " ")
+    |> String.replace(Evaluator.emoticon_list(), "  ", insert_replaced: 1)
     |> String.replace(~r/ {2,}/, " ")
-  end
-
-  defp split_on_emoticons(text_list) when is_list(text_list) do
-    split_on_emoticons(Evaluator.emoticon_list(), text_list)
-    |> Enum.filter(&(&1 != ""))
-  end
-
-  defp split_on_emoticons([head | tail], text_list) do
-    new_text_list =
-      text_list
-      |> Enum.map(fn string ->
-        string
-        |> String.split(~r/#{head}/, include_captures: true)
-      end)
-      |> List.flatten()
-
-    split_on_emoticons(tail, new_text_list)
-  end
-
-  defp split_on_emoticons([], text_list) do
-    text_list
   end
 end
