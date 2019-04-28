@@ -1,3 +1,11 @@
+<a name="0.2.1"></a>
+## [0.2.1](https://github.com/uesteibar/veritaserum/compare/v0.2.0...v0.2.1) (2019-04-28)
+
+
+### Features
+
+* **analyze:** change the way we split the string on emoticons to enhance perfomance
+
 
 <a name="0.2.0"></a>
 ## [0.2.0](https://github.com/uesteibar/veritaserum/compare/v0.1.3...v0.2.0) (2017-09-19)
