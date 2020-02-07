@@ -17,6 +17,12 @@ defmodule Veritaserum do
     |> Enum.to_list()
   end
 
+  def analyze(input) do
+    {score, _} = analyze(input, return: :score_and_marks)
+
+    score
+  end
+
   @doc """
   Returns a sentiment value for the given text
 
@@ -32,12 +38,6 @@ defmodule Veritaserum do
     score = get_score(list_with_marks)
 
     {score, list_with_marks}
-  end
-
-  def analyze(input) do
-    {score, _} = analyze(input, return: :score_and_marks)
-
-    score
   end
 
   defp get_score(words) do
@@ -112,7 +112,7 @@ defmodule Veritaserum do
     |> String.replace(~r/\n/, " ")
     |> String.downcase()
     |> String.replace(~r/[.,\/#!$%\^&\*;:{}=_`\"~()]/, " ")
-    |> String.replace(Evaluator.emoticon_list(), "  ", insert_replaced: 1)
+    |> :binary.replace(Evaluator.emoticon_list(), "  ", insert_replaced: 1)
     |> String.replace(~r/ {2,}/, " ")
   end
 end
