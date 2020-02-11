@@ -1,3 +1,13 @@
+<a name="0.2.2"></a>
+# [0.2.2](https://github.com/uesteibar/veritaserum/compare/v0.2.1...v) (2020-02-11)
+
+
+### Bug Fixes
+
+* **deprecations:** Fix deprecation warnings ([0d2a6b3](https://github.com/uesteibar/veritaserum/commit/0d2a6b3))
+
+
+
 <a name="0.2.1"></a>
 ## [0.2.1](https://github.com/uesteibar/veritaserum/compare/v0.2.0...v0.2.1) (2019-04-28)
 
