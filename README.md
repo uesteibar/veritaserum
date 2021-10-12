@@ -1,7 +1,9 @@
 # Veritaserum
 
 [![Build Status](https://travis-ci.org/uesteibar/veritaserum.svg?branch=master)](https://travis-ci.org/uesteibar/veritaserum)
-[![Hex Version](https://img.shields.io/hexpm/v/veritaserum.svg)](https://hex.pm/packages/veritaserum)
+[![Module Version](https://img.shields.io/hexpm/v/veritaserum.svg)](https://hex.pm/packages/veritaserum)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/veritaserum/)
+[![License](https://img.shields.io/hexpm/l/veritaserum.svg)](https://github.com/uesteibar/veritaserum/blob/master/LICENSE.md)
 
 Simple sentiment analysis for [Elixir](http://elixir-lang.org/) based on the AFINN-165 list and some extra enhancements.
 
