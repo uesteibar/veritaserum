@@ -1,25 +1,34 @@
 defmodule Veritaserum.Evaluator do
   @moduledoc """
-  Evaluats words, boosters, negators and emoticons.
+  Evaluates words, boosters, negators and emoticons.
   """
 
   ["word", "emoticon", "negator", "booster"]
   |> Enum.each(fn facet ->
-    File.read!("#{__DIR__}/../config/facets/#{facet}.json")
-    |> Jason.decode!()
-    |> (fn list ->
-          def unquote(:"#{facet}_list")(),
-            do: unquote(list |> Enum.map(fn {key, _} -> key end) |> List.flatten())
+    map =
+      "#{__DIR__}/../config/facets/#{facet}.json"
+      |> File.read!()
+      |> Jason.decode!()
 
-          list
-        end).()
-    |> Enum.each(fn {word, value} ->
-      @doc """
-      Evaluates if a word/emoji is a **#{facet}** and returns value.
+    @doc """
+    Returns a list of words/emojis which affect **#{facet}** sentiment.
 
-          iex> Veritaserum.Evaluator.evaluate_#{facet}("#{word}")
-          #{value}
-      """
+        Veritaserum.Evaluator.#{facet}_list()
+    """
+    def unquote(:"#{facet}_list")(),
+      do: unquote(Map.keys(map))
+
+    @doc """
+    Evaluates if a word/emoji is a **#{facet}** and returns value.
+    Otherwise returns `nil`.
+
+        Veritaserum.Evaluator.evaluate_#{facet}("very")
+        Veritaserum.Evaluator.evaluate_#{facet}("can't")
+        Veritaserum.Evaluator.evaluate_#{facet}("afraid")
+    """
+    def unquote(:"evaluate_#{facet}")(word_or_emoji)
+
+    Enum.each(map, fn {word, value} ->
       def unquote(:"evaluate_#{facet}")(unquote(word)), do: unquote(value)
     end)
 
