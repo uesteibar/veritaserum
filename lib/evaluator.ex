@@ -5,7 +5,7 @@ defmodule Veritaserum.Evaluator do
 
   ["word", "emoticon", "negator", "booster"]
   |> Enum.each(fn facet ->
-    map =
+    facet_mapping =
       "#{__DIR__}/../config/facets/#{facet}.json"
       |> File.read!()
       |> Jason.decode!()
@@ -16,7 +16,7 @@ defmodule Veritaserum.Evaluator do
         Veritaserum.Evaluator.#{facet}_list()
     """
     def unquote(:"#{facet}_list")(),
-      do: unquote(Map.keys(map))
+      do: unquote(Map.keys(facet_mapping))
 
     @doc """
     Evaluates if a word/emoji is a **#{facet}** and returns value.
@@ -28,7 +28,7 @@ defmodule Veritaserum.Evaluator do
     """
     def unquote(:"evaluate_#{facet}")(word_or_emoji)
 
-    Enum.each(map, fn {word, value} ->
+    Enum.each(facet_mapping, fn {word, value} ->
       def unquote(:"evaluate_#{facet}")(unquote(word)), do: unquote(value)
     end)
 
