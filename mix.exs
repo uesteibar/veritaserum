@@ -20,7 +20,7 @@ defmodule Veritaserum.Mixfile do
   end
 
   def application do
-    [extra_applications: [:logger]]
+    [extra_applications: [:logger, :jason]]
   end
 
   defp package do
@@ -61,6 +61,7 @@ defmodule Veritaserum.Mixfile do
 
   defp deps do
     [
+      {:jason, "~> 1.0"},
       {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
