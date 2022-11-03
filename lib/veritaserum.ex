@@ -62,6 +62,8 @@ defmodule Veritaserum do
          do: {:neutral, 0, word}
   end
 
+  defp mark_list([]), do: []
+
   defp mark_list([head | tail]) do
     mark_list(tail, [mark_word(head)])
   end
@@ -92,6 +94,8 @@ defmodule Veritaserum do
         analyze_mark(mark)
     end
   end
+
+  defp analyze_list([]), do: []
 
   defp analyze_list([head | tail]) do
     analyze_list(tail, head, [analyze_mark(head)])
