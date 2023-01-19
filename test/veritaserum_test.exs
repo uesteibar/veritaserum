@@ -5,6 +5,14 @@ defmodule VeritaserumTest do
 
   import Veritaserum
 
+  describe "when given an empty word" do
+    @text ""
+
+    test "sentimental value is 0" do
+      assert analyze(@text) == 0
+    end
+  end
+
   describe "when given a list" do
     @list ["I love Veritaserum", "I hate nothing"]
 
